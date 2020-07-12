@@ -6,9 +6,13 @@ function TodoItem(props)
     return(
         <form>
         <label className={styles.todoItem}>      
-          <input  type="checkbox" />
+          <input
+             type="checkbox"
+             checked={props.item.completed}
+             onChange={()=>props.handleChange(props.item.id)}
+          />
           <span>
-            Item {props.number}
+            {props.item.text}
           </span>
         </label>
       </form>
