@@ -11,6 +11,7 @@ class App extends React.Component
       todos: todosData
     }
     this.handleChange=this.handleChange.bind(this)
+    this.removeItem=this.removeItem.bind(this)
   }
 
   //marks the task as completed or not
@@ -31,9 +32,24 @@ class App extends React.Component
       }
     })
   }
-  
+
+  removeItem(id){
+    this.setState(prevState=>{
+      var UpdatedState = prevState.todos.filter(function(value,index,arr){
+        if(value.id===id){
+          return false
+        }
+        else return true
+      })
+      return {
+        todos: UpdatedState
+      }
+    })
+
+  }
+
   render(){
-    const todoItems= this.state.todos.map(item => <TodoItem key={item.id} item={item} handleChange={this.handleChange}/>)
+    const todoItems= this.state.todos.map(item => <TodoItem key={item.id} item={item} handleChange={this.handleChange} removeItem={this.removeItem}/>)
     return (
       <div className={styles.todoList}>
           {todoItems}

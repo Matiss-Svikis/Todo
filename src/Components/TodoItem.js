@@ -1,5 +1,7 @@
 import React from "react";
 import styles from "./../Styles/mystyle.module.css"
+import {faTrashAlt} from "@fortawesome/free-solid-svg-icons"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 
 function TodoItem(props)
 {
@@ -7,6 +9,10 @@ function TodoItem(props)
     fontStyle:"italic",
     color: "#cdcdcd",
     textDecoration: "line-through"
+  }
+  const iconStyle={
+    marginLeft: "auto",
+    marginRight: "0"
   }
     return(
         <form>
@@ -19,6 +25,9 @@ function TodoItem(props)
           <span>
             <p style={props.item.completed? completedStyle :null}>{props.item.text}</p>
           </span>
+          <div style={iconStyle} onClick={()=>props.removeItem(props.item.id)}>
+              <FontAwesomeIcon  icon={faTrashAlt}/>
+          </div>
         </label>
       </form>
     )
