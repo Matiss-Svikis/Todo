@@ -5,8 +5,7 @@ import todosData from "./todosData"
 
 class App extends React.Component
 {
-  constructor()
-  {
+  constructor(){
     super()
     this.state={
       todos: todosData
@@ -14,8 +13,8 @@ class App extends React.Component
     this.handleChange=this.handleChange.bind(this)
   }
 
+  //marks the task as completed or not
   handleChange(id){
-
     this.setState(prevState=>{
       const updatedTodos=prevState.todos.map(todo=>{
         if(todo.id===id)
@@ -31,15 +30,15 @@ class App extends React.Component
         todos: updatedTodos
       }
     })
-
   }
+  
   render(){
     const todoItems= this.state.todos.map(item => <TodoItem key={item.id} item={item} handleChange={this.handleChange}/>)
     return (
-    <div className={styles.todoList}>
-        {todoItems}
-    </div>
-  )
-}
+      <div className={styles.todoList}>
+          {todoItems}
+      </div>
+    )
+  }
 }
  export default App
