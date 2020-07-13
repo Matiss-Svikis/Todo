@@ -2,6 +2,7 @@ import React from "react"
 import TodoItem from "./Components/TodoItem.js";
 import styles from "./Styles/mystyle.module.css";
 import todosData from "./todosData"
+import NewItemInput from "./Components/NewItemInput"
 
 class App extends React.Component
 {
@@ -35,8 +36,8 @@ class App extends React.Component
 
   removeItem(id){
     this.setState(prevState=>{
-      var UpdatedState = prevState.todos.filter(function(value,index,arr){
-        if(value.id===id){
+      var UpdatedState = prevState.todos.filter(function(itemObject){
+        if(itemObject.id===id){
           return false
         }
         else return true
@@ -45,7 +46,17 @@ class App extends React.Component
         todos: UpdatedState
       }
     })
+  }
 
+  addNewItem(text){
+    var idCounter=0
+    this.setState(prevState=>{
+      var UpdatedState = prevState.todos.filter(function(object){
+        idCounter++
+        return true
+      })
+      console.log(UpdatedState)
+    })
   }
 
   render(){
@@ -53,6 +64,7 @@ class App extends React.Component
     return (
       <div className={styles.todoList}>
           {todoItems}
+          <NewItemInput />
       </div>
     )
   }
