@@ -13,6 +13,7 @@ class App extends React.Component
     }
     this.handleChange=this.handleChange.bind(this)
     this.removeItem=this.removeItem.bind(this)
+    this.addNewItem=this.addNewItem.bind(this)
   }
 
   //marks the task as completed or not
@@ -52,10 +53,20 @@ class App extends React.Component
     var idCounter=0
     this.setState(prevState=>{
       var UpdatedState = prevState.todos.filter(function(object){
-        idCounter++
+        if(object.id>idCounter){
+          idCounter=object.id
+        }
         return true
       })
-      console.log(UpdatedState)
+      const newItem={
+        id: idCounter+1,
+        text: text,
+        completed: false
+      }      
+      UpdatedState.push(newItem)
+      return {
+          todos: UpdatedState
+        }
     })
   }
 
@@ -64,7 +75,7 @@ class App extends React.Component
     return (
       <div className={styles.todoList}>
           {todoItems}
-          <NewItemInput />
+          <NewItemInput addNewItem={this.addNewItem}/>
       </div>
     )
   }
