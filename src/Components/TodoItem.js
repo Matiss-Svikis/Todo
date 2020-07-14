@@ -26,7 +26,7 @@ function TodoItem(props)
             <p style={props.item.completed? completedStyle :null}>{props.item.text}</p>
           </span>
           <div style={iconStyle} onClick={()=>props.removeItem(props.item.id)}>
-              <FontAwesomeIcon  icon={faTrashAlt}/>
+              <FontAwesomeIcon  icon={props.item.completed ? faTrashAlt : {display: "none"}}/>
           </div>
         </label>
       </form>
