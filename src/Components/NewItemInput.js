@@ -1,6 +1,5 @@
 import React from "react"
 import inputStyle from "./../Styles/inputStyle.module.css"
-import { render } from "@testing-library/react"
 
 class NewItemInput extends React.Component{
     constructor(){
@@ -26,17 +25,18 @@ class NewItemInput extends React.Component{
 
    render(){
        return(
-               <form className={[inputStyle.form__group].join(' ')}>
-
+            <form className={[inputStyle.form__group].join(' ')}>
                 <input name="newItem" type="text" className={inputStyle.form__field} onChange={this.handleChange} placeholder="Name" required value={this.state.newItem} />
                 <label className={inputStyle.form__label} >Add new item</label>
                 <a href="#" onClick={()=>{
-                    this.props.addNewItem(this.state.newItem)
-                    this.clearState()
-                     }} className={inputStyle.button1}>Add</a>
-               </form>
-    )
+                        this.props.addNewItem(this.state.newItem)
+                        this.clearState()
+                    }}
+                     className={inputStyle.button1}>
+                        Add
+                </a>
+            </form>
+        )
+    }
 }
-}
-
 export default NewItemInput
