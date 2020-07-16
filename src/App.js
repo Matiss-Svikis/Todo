@@ -8,12 +8,24 @@ class App extends React.Component
 {
   constructor(){
     super()
-    this.state={
-      todos: todosData
+    var localStorageState = JSON.parse(localStorage.getItem('localState'))
+    if(localStorageState.isLocalStorageEnabled){
+      this.state={
+        todos: localStorageState.todos,
+        isLocalStorageEnabled: true
+      }
+    }
+    else{     
+      this.state={
+        todos: todosData,
+        isLocalStorageEnabled:false
+      }   
     }
     this.handleChange=this.handleChange.bind(this)
     this.removeItem=this.removeItem.bind(this)
     this.addNewItem=this.addNewItem.bind(this)
+    this.toggleLocalStorage=this.toggleLocalStorage.bind(this)    
+    this.saveToLocalStorage=this.saveToLocalStorage.bind(this)
   }
 
   //marks the task as completed or not
@@ -41,7 +53,7 @@ class App extends React.Component
         if(itemObject.id===id){
           return false
         }
-        else return true
+        else return true       
       })
       return {
         todos: UpdatedState
@@ -70,12 +82,36 @@ class App extends React.Component
     })
   }
 
+  toggleLocalStorage(){
+    this.setState(prevState=>{
+      return{
+        isLocalStorageEnabled: !prevState.isLocalStorageEnabled
+      }
+    })
+    this.saveToLocalStorage()
+  }
+
+  saveToLocalStorage(){
+      var stateJson=JSON.stringify(this.state)
+      localStorage.setItem('localState', stateJson)    
+  }
+
   render(){
     const todoItems= this.state.todos.map(item => <TodoItem key={item.id} item={item} handleChange={this.handleChange} removeItem={this.removeItem}/>)
+    this.saveToLocalStorage()
     return (
       <div className={styles.todoList}>
           {todoItems}
           <NewItemInput addNewItem={this.addNewItem}/>
+          
+          <span className={styles.localStorageCheckBox}>
+            <input 
+            type="checkbox" 
+            checked={this.state.isLocalStorageEnabled}
+            onChange={()=>{this.toggleLocalStorage()}}
+            />
+            Check to Enable local storage
+          </span>         
       </div>
     )
   }
