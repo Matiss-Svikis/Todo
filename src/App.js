@@ -3,6 +3,8 @@ import TodoItem from "./Components/TodoItem.js";
 import styles from "./Styles/mystyle.module.css";
 import todosData from "./todosData"
 import NewItemInput from "./Components/NewItemInput"
+import {DragDropContext, Droppable} from 'react-beautiful-dnd'
+import DroppableComponent from './Components/DroppableComponent'
 
 class App extends React.Component
 {
@@ -96,14 +98,41 @@ class App extends React.Component
       localStorage.setItem('localState', stateJson)    
   }
 
+  onDragEnd=result=>{
+
+  }
+
   render(){
-    const todoItems= this.state.todos.map(item => <TodoItem key={item.id} item={item} handleChange={this.handleChange} removeItem={this.removeItem}/>)
     this.saveToLocalStorage()
     return (
       <div className={styles.todoList}>
-          {todoItems}
-          <NewItemInput addNewItem={this.addNewItem}/>
-          
+        <DragDropContext
+        onDragEnd={this.onDragEnd}
+        >
+          <Droppable droppableId="column-1">
+            {(provided)=>{
+              const todoItems= this.state.todos.map((item, index) => (
+              <div
+                ref={provided.innerRef} 
+                {...provided.droppableProps} 
+                key={item.id*100}
+                >
+
+                <TodoItem 
+                key={item.id} 
+                item={item} 
+                handleChange={this.handleChange} 
+                removeItem={this.removeItem}
+                index={index*10}
+                />
+                {provided.placeholder}
+              </div>
+                ))
+              return todoItems
+            }}
+          </Droppable>
+        </DragDropContext>
+          <NewItemInput addNewItem={this.addNewItem}/>       
           <span className={styles.localStorageCheckBox}>
             <input 
             type="checkbox" 
